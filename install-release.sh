@@ -90,6 +90,10 @@ repair_macos_signature() {
     return
   fi
 
+  if codesign --verify --strict "${binary_path}" >/dev/null 2>&1; then
+    return
+  fi
+
   codesign --remove-signature "${binary_path}" >/dev/null 2>&1 || true
   if ! codesign --force --sign - "${binary_path}" >/dev/null 2>&1; then
     echo "Warning: could not ad-hoc sign installed macOS binary at ${binary_path}" >&2

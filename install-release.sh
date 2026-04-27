@@ -73,6 +73,29 @@ extract_archive() {
   esac
 }
 
+repair_macos_signature() {
+  local binary_path="$1"
+  local file_info
+
+  if [[ "$(uname -s)" != "Darwin" ]]; then
+    return
+  fi
+
+  if ! command -v codesign >/dev/null 2>&1 || ! command -v file >/dev/null 2>&1; then
+    return
+  fi
+
+  file_info="$(file "${binary_path}")"
+  if [[ "${file_info}" != *"Mach-O"* ]]; then
+    return
+  fi
+
+  codesign --remove-signature "${binary_path}" >/dev/null 2>&1 || true
+  if ! codesign --force --sign - "${binary_path}" >/dev/null 2>&1; then
+    echo "Warning: could not ad-hoc sign installed macOS binary at ${binary_path}" >&2
+  fi
+}
+
 lookup_asset_url() {
   local repo_slug="$1"
   local asset_name="$2"
@@ -180,6 +203,7 @@ main() {
   mkdir -p "${INSTALL_DIR}"
   cp "${installed_binary}" "${OUTPUT_PATH}"
   chmod +x "${OUTPUT_PATH}" || true
+  repair_macos_signature "${OUTPUT_PATH}"
 
   cat <<EOF
 Installed splat to:

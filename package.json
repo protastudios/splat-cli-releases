@@ -1,0 +1,41 @@
+{
+  "name": "@splat/agent-skills",
+  "version": "1.0.0",
+  "description": "Codex and Claude Code guidance for the Splat CLI.",
+  "bin": {
+    "splat-agent-skills": "bin/install.js"
+  },
+  "files": [
+    "bin",
+    "skills",
+    "claude",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --check bin/install.js && bash -n install-agent-skills.sh",
+    "pack:dry-run": "npm pack --dry-run"
+  },
+  "keywords": [
+    "splat",
+    "codex",
+    "claude",
+    "skills",
+    "cli",
+    "trading"
+  ],
+  "homepage": "https://asksplat.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/protastudios/splat-cli-releases.git"
+  },
+  "bugs": {
+    "url": "https://github.com/protastudios/splat-cli-releases/issues"
+  },
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

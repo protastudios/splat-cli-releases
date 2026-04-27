@@ -1,0 +1,7 @@
+interface:
+  display_name: "Splat CLI"
+  short_description: "Operate the Splat trading CLI"
+  default_prompt: "Use $splat-cli to inspect my Splat CLI setup and pick the right command."
+policy:
+  allow_implicit_invocation: true
+

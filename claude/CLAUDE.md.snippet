@@ -1,0 +1,10 @@
+# Splat CLI
+
+When working with Splat CLI tasks, inspect the live command surface before giving detailed command advice:
+
+```bash
+splat --json commands
+```
+
+Use `splat doctor`, `splat auth status`, and `splat me` to verify local setup and authentication. Prefer staging or prepare/execute flows before final submit/confirm actions. Never run final trade, swap, bridge, reward-claim, token-revoke, grant-update, or signer-submit commands unless the user explicitly asks for that final action in the current task.
+

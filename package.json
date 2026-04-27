@@ -1,5 +1,5 @@
 {
-  "name": "@splat/agent-skills",
+  "name": "@asksplat/agent-skills",
   "version": "1.0.0",
   "description": "Codex and Claude Code guidance for the Splat CLI.",
   "bin": {

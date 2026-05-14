@@ -207,6 +207,14 @@ main() {
   mkdir -p "${INSTALL_DIR}"
   cp "${installed_binary}" "${OUTPUT_PATH}"
   chmod +x "${OUTPUT_PATH}" || true
+  cat > "${OUTPUT_PATH}.install.json" <<EOF
+{
+  "method": "release-installer",
+  "installedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "target": "${target_slug}",
+  "repo": "${REPO_SLUG}"
+}
+EOF
   repair_macos_signature "${OUTPUT_PATH}"
 
   cat <<EOF

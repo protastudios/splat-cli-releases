@@ -8,7 +8,7 @@ Regenerate it from `splat-trading-backend` with:
 bun run skill:sync-commands
 ```
 
-Generated command count: 85.
+Generated command count: 88.
 
 ## api
 
@@ -118,9 +118,9 @@ splat account portfolio 0xuser
 
 ### splat transfers spot-perp <amount> <toPerp>
 
-Create a spot-perp transfer instruction
+Create a spot-perp transfer instruction using a terminal app JWT
 
-Auth required: no.
+Auth required: yes.
 
 Examples:
 
@@ -130,9 +130,9 @@ splat transfers spot-perp 1000 true
 
 ### splat transfers usdc <amount> <destination>
 
-Create a USDC transfer instruction
+Create a USDC transfer instruction using a terminal app JWT
 
-Auth required: no.
+Auth required: yes.
 
 Examples:
 
@@ -142,9 +142,9 @@ splat transfers usdc 1000 0xrecipient
 
 ### splat transfers spot-asset <ticker> <amount> <destination>
 
-Create a spot asset transfer instruction
+Create a spot asset transfer instruction using a terminal app JWT
 
-Auth required: no.
+Auth required: yes.
 
 Examples:
 
@@ -560,7 +560,7 @@ splat user leverage ETH 5
 
 ## solana
 
-### splat solana swap quote <inputMint> <outputMint> <amount>
+### splat solana swap quote <inputMint> <outputMint> <amount> [--slippage-bps <bps>]
 
 Fetch a Solana swap quote
 
@@ -569,22 +569,58 @@ Auth required: no.
 Examples:
 
 ```bash
-splat solana swap quote EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000
+splat solana swap quote EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000 --slippage-bps 100
 ```
 
-### splat solana swap market <inputMint> <outputMint> <amount> <userAddress>
+### splat solana swap quote-batch <quotesJson> [--slippage-bps <bps>]
 
-Build a market swap transaction for a Solana wallet
+Fetch multiple Solana swap quotes in one request
 
 Auth required: no.
 
 Examples:
 
 ```bash
-splat solana swap market EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000 wallet_123
+splat solana swap quote-batch '[{"inputMint":"So11111111111111111111111111111111111111112","outputMint":"SPLAT_MINT","amount":"10000"}]'
 ```
 
-### splat solana swap execute <inputMint> <outputMint> <amount> <userAddress>
+### splat solana swap preview <inputMint> <outputMint> <amount> [userAddress] [--slippage-bps <bps>]
+
+Preview a Solana swap quote, unsigned transaction, and estimated SOL costs
+
+Auth required: no.
+
+Examples:
+
+```bash
+splat solana swap preview So11111111111111111111111111111111111111112 SPLAT_MINT 10000
+```
+
+### splat solana swap simulate <inputMint> <outputMint> <amount> [userAddress] [--slippage-bps <bps>] [--logs]
+
+Build and simulate a Solana swap transaction without signing
+
+Auth required: no.
+
+Examples:
+
+```bash
+splat solana swap simulate So11111111111111111111111111111111111111112 SPLAT_MINT 10000
+```
+
+### splat solana swap market <inputMint> <outputMint> <amount> [userAddress] [--slippage-bps <bps>]
+
+Build a market swap transaction for the authenticated Solana meme wallet or an override
+
+Auth required: no.
+
+Examples:
+
+```bash
+splat solana swap market EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000
+```
+
+### splat solana swap execute <inputMint> <outputMint> <amount> [userAddress] [--slippage-bps <bps>]
 
 Build, sign, and submit a market swap with the delegated Turnkey CLI credential
 
@@ -593,10 +629,10 @@ Auth required: yes.
 Examples:
 
 ```bash
-splat solana swap execute So11111111111111111111111111111111111111112 SPLAT_MINT 10000 wallet_123
+splat solana swap execute So11111111111111111111111111111111111111112 SPLAT_MINT 10000
 ```
 
-### splat solana swap submit <transaction> <userAddress>
+### splat solana swap submit <transaction> [userAddress]
 
 Sign and submit a prepared Solana swap transaction with the delegated Turnkey CLI credential
 
@@ -605,22 +641,22 @@ Auth required: yes.
 Examples:
 
 ```bash
-splat solana swap submit <base58Transaction> wallet_123
+splat solana swap submit <base58Transaction>
 ```
 
-### splat solana swap limit <inputMint> <outputMint> <makingAmount> <takingAmount> <userAddress>
+### splat solana swap limit <inputMint> <outputMint> <makingAmount> <takingAmount> [userAddress]
 
-Build a limit swap transaction for a Solana wallet
+Build a limit swap transaction for the authenticated Solana meme wallet or an override
 
 Auth required: no.
 
 Examples:
 
 ```bash
-splat solana swap limit EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000 98000 wallet_123
+splat solana swap limit EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000 98000
 ```
 
-### splat solana swap limit-execute <inputMint> <outputMint> <makingAmount> <takingAmount> <userAddress>
+### splat solana swap limit-execute <inputMint> <outputMint> <makingAmount> <takingAmount> [userAddress]
 
 Build, sign, and submit a Solana limit swap with the delegated Turnkey CLI credential
 
@@ -629,7 +665,7 @@ Auth required: yes.
 Examples:
 
 ```bash
-splat solana swap limit-execute EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000 98000 wallet_123
+splat solana swap limit-execute EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v So11111111111111111111111111111111111111112 100000 98000
 ```
 
 ### splat solana swap limit-orders list <userAddress>
@@ -656,16 +692,28 @@ Examples:
 splat solana swap limit-orders cancel wallet_123 order_1,order_2
 ```
 
-### splat solana tokens <userAddress>
+### splat solana tokens [userAddress]
 
-List user token accounts for a Solana wallet
+List native SOL and token accounts for the authenticated Solana meme wallet or an override
 
 Auth required: no.
 
 Examples:
 
 ```bash
-splat solana tokens wallet_123
+splat solana tokens
+```
+
+### splat solana tokens search <query>
+
+Search Solana SPL token metadata through Jupiter
+
+Auth required: no.
+
+Examples:
+
+```bash
+splat solana tokens search bonk
 ```
 
 ### splat solana pnl <walletAddress> [day|week|month|all]
@@ -680,16 +728,16 @@ Examples:
 splat solana pnl wallet_123 week
 ```
 
-### splat solana trading-history <userId>
+### splat solana trading-history [userId]
 
-Fetch Solana trading history by backend user id
+Fetch Solana trading history for the authenticated user or an override
 
-Auth required: no.
+Auth required: yes.
 
 Examples:
 
 ```bash
-splat solana trading-history user_123
+splat solana trading-history
 ```
 
 ## commands
@@ -734,12 +782,12 @@ Examples:
 
 ```bash
 splat auth
-splat auth login --dev
+splat auth login --enable-trading
 ```
 
-### splat auth login [--prod|--dev|--staging] [--api-url <url>] [--web-url <url>] [--no-open] [--enable-trading]
+### splat auth login [--enable-trading] [--no-open]
 
-Start first-party CLI login with production defaults, dev defaults, or explicit staging URLs
+Start first-party CLI login against the production platform
 
 Auth required: no.
 
@@ -747,9 +795,7 @@ Examples:
 
 ```bash
 splat auth login
-splat auth login --dev
-splat auth login --dev --enable-trading
-splat auth login --staging --api-url https://api.staging.asksplat.com --web-url https://terminal.staging.asksplate.com
+splat auth login --enable-trading
 ```
 
 ### splat auth firebase-login <idToken> <turnkeyEvmAddress> <turnkeySolanaAddress> <turnkeySolanaMemeAddress> [connectedEvmAddress] [connectedSolanaAddress]
@@ -773,7 +819,7 @@ Auth required: no.
 Examples:
 
 ```bash
-splat auth save splat_pat_value https://api.asksplat.com
+splat auth save splat_pat_value https://splat-trading-backend.up.railway.app
 ```
 
 ### splat auth status
@@ -834,6 +880,44 @@ Examples:
 
 ```bash
 splat auth token revoke api_token_123
+```
+
+## api-tokens
+
+### splat api-tokens list
+
+List personal API tokens using the saved or env-provided platform token
+
+Auth required: yes.
+
+Examples:
+
+```bash
+splat api-tokens list
+```
+
+### splat api-tokens create <label> <scope1,scope2,...>
+
+Create a new personal API token
+
+Auth required: yes.
+
+Examples:
+
+```bash
+splat api-tokens create "Local Agent" profile:read,market-data:read
+```
+
+### splat api-tokens revoke <apiTokenId>
+
+Revoke an existing personal API token
+
+Auth required: yes.
+
+Examples:
+
+```bash
+splat api-tokens revoke api_token_123
 ```
 
 ## me
@@ -1023,54 +1107,4 @@ Examples:
 
 ```bash
 splat oauth revoke TOKEN
-```
-
-## agent
-
-### splat agent signer init [label]
-
-Create local agent signer key material and start browser pairing
-
-Auth required: yes.
-
-Examples:
-
-```bash
-splat agent signer init "Local Agent"
-```
-
-### splat agent grants list|revoke|update
-
-Manage delegated agent signing grants
-
-Auth required: yes.
-
-Examples:
-
-```bash
-splat agent grants list
-```
-
-### splat agent trades prepare|list|approve|reject|payload|submit
-
-Prepare, approve, inspect, and submit delegated agent trades
-
-Auth required: yes.
-
-Examples:
-
-```bash
-splat agent trades approve request_123
-```
-
-### splat agent run
-
-Poll approved delegated trades and print signing payloads for the local signer
-
-Auth required: yes.
-
-Examples:
-
-```bash
-splat agent run
 ```

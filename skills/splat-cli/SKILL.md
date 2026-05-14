@@ -1,6 +1,6 @@
 ---
 name: splat-cli
-description: Use when helping a user operate the Splat CLI for Splat platform auth, market data, portfolio inspection, Solana swaps, Hyperliquid orders, rewards, bridge flows, OAuth/API tokens, or delegated agent signing. This skill teaches agents to inspect the live CLI surface instead of relying on stale command memory.
+description: Use when helping a user operate the Splat CLI for Splat platform auth, market data, portfolio inspection, Solana swaps, Hyperliquid orders, rewards, bridge flows, OAuth/API tokens, or local trade signing setup. This skill teaches agents to inspect the live CLI surface instead of relying on stale command memory.
 ---
 
 # Splat CLI
@@ -41,7 +41,7 @@ Use `splat help <group>` for group-specific usage, such as `splat help auth`, `s
 - Prefer JSON output where available when another tool or agent will parse the result.
 - Do not invent command flags. Run `splat --json commands` or `splat help <group>` first.
 - For authenticated commands, check `splat auth status` and `splat me` before assuming the user is logged in.
+- For local signing or submitting flows, make sure the user has run `splat auth login --enable-trading`; use `--dev` or `--staging ... --enable-trading` for those environments.
 - For trading or signing flows, prefer quote, inspect, prepare, or execute/stage commands before any final submit/confirm step.
 - Never confirm or submit a trade, swap, bridge, reward claim, token revocation, grant update, or signer action unless the user explicitly asked for that action in the current task.
 - When the user asks for local development URLs, use `splat auth login --dev`. When testing staging, use `--staging` with explicit `--api-url` and `--web-url`.
-

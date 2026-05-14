@@ -1,6 +1,6 @@
 {
   "name": "@asksplat/agent-skills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Codex and Claude Code guidance for the Splat CLI.",
   "bin": {
     "splat-agent-skills": "bin/install.js"

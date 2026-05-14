@@ -10,6 +10,14 @@ splat me
 
 `splat auth` is an alias for the default production login flow.
 
+When the user wants the CLI to sign or submit swaps, confirm staged orders, cancel signed orders, or claim rewards, request local trade/swap signing access:
+
+```bash
+splat auth login --enable-trading
+```
+
+The browser approval page should show `Trading delegation: Requested`. Without `--enable-trading`, the CLI can authenticate for read/API workflows but local signing commands will not have the Turnkey CLI credential they need.
+
 ## Local Development
 
 Use the development platform targets:
@@ -19,7 +27,7 @@ splat auth login --dev
 splat doctor
 ```
 
-Use `--enable-trading` only when the user explicitly wants delegated trading credential setup:
+Use `--enable-trading` only when the user explicitly wants local trade/swap signing setup:
 
 ```bash
 splat auth login --dev --enable-trading
@@ -33,6 +41,11 @@ Always pass explicit staging targets:
 splat auth login --staging \
   --api-url https://api.staging.asksplat.com \
   --web-url https://terminal.staging.asksplat.com
+
+splat auth login --staging \
+  --api-url https://api.staging.asksplat.com \
+  --web-url https://terminal.staging.asksplat.com \
+  --enable-trading
 ```
 
 ## Existing Tokens
@@ -59,4 +72,3 @@ OAuth commands exist for client management and token exchange. Inspect current u
 splat help oauth
 splat --json commands
 ```
-

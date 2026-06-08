@@ -42,6 +42,6 @@ Use `splat help <group>` for group-specific usage, such as `splat help auth`, `s
 - Do not invent command flags. Run `splat --json commands` or `splat help <group>` first.
 - For authenticated commands, check `splat auth status` and `splat me` before assuming the user is logged in.
 - For trading or signing flows, prefer quote, inspect, prepare, or execute/stage commands before any final submit/confirm step.
-- Never confirm or submit a trade, swap, bridge, reward claim, token revocation, grant update, or signer action unless the user explicitly asked for that action in the current task.
+- For normal use, require explicit current-task intent before final submit/confirm actions. If the user wants agentic trading, ask for an explicit autonomous-trading mandate that defines the scope, duration, allowed actions, and approval mode. When that mandate authorizes auto-approval, it counts as current-task intent for Splat-scoped auth, bridge, swap, order, grant, and signer setup needed to trade, provided live inspection and safety gates pass.
 - When the user asks for local development URLs, use `splat auth login --dev`. When testing staging, use `--staging` with explicit `--api-url` and `--web-url`.
 
